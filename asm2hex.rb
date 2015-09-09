@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require "open3"
 
 if ARGV.length != 1
