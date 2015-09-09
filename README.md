@@ -3,7 +3,7 @@ This tool assembles a file using nasm, and prints its opcode in hex.
 
 ## Usage
 ```
-$ ruby asm2hex.rb <filename>
+$ ./asm2hex.rb <filename>
 ```
 
 ## Sample
