@@ -1,14 +1,41 @@
 #!/usr/bin/env ruby
 require "open3"
 
-if ARGV.length != 1
-  STDERR.puts "Usage: asm2hex filename"
+def parseargs(args)
+  options = {
+    filename: nil,
+    escaped_string: false
+  }
+
+  i = 0
+  while args[i]
+    if args[i] == "-e"
+      options[:escaped_string] = true
+    elsif !options[:filename]
+      options[:filename] = args[i]
+    else
+      return nil
+    end
+    i += 1
+  end
+
+  if !options[:filename]
+    return nil
+  end
+
+  options
+end
+
+options = parseargs(ARGV)
+if !options
+  warn "Usage: asm2hex [options] filename"
+  warn
+  warn "options:"
+  warn "  -e: print escaped shellcode"
   exit true
 end
 
-filename = ARGV[0]
-
-output, status = Open3.capture2("nasm -f elf -o /dev/null -l /dev/stdout #{filename}")
+output, status = Open3.capture2("nasm -f elf -o /dev/null -l /dev/stdout #{options[:filename]}")
 
 if status != 0
   exit false
@@ -28,4 +55,9 @@ puts "code length: #{result.length / 2}"
 if [result].pack("H*").include?("\0")
   puts "[!] contains null byte"
 end
-puts result.downcase
+
+if options[:escaped_string]
+  puts result.downcase.scan(/../).map{|a| '\x' + a}.join
+else
+  puts result.downcase
+end
