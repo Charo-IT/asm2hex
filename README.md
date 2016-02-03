@@ -3,7 +3,10 @@ This tool assembles a file using nasm, and prints its opcode in hex.
 
 ## Usage
 ```
-$ ./asm2hex.rb <filename>
+$ ./asm2hex.rb [options] filename
+options:
+  -e: print escaped shellcode
+  -b bit: 32 or 64 (default is 64bit)
 ```
 
 ## Sample
@@ -22,7 +25,7 @@ mov ecx, esp
 mov eax, 11
 int 0x80
 
-$ ruby ./asm2hex.rb shellcode.s
+$ ./asm2hex.rb -b 32 shellcode.s
      1                                  ; push "/bin/sh"
      2 00000000 682F736800              push 0x0068732f
      3 00000005 682F62696E              push 0x6e69622f
