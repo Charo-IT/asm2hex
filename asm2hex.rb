@@ -54,7 +54,7 @@ puts
 
 result = ""
 output.each_line{|l|
-  m = l.match(/^ *\d+ [0-9A-F]+ ([0-9A-F]+)-? +.*$/)
+  m = l.match(/^ *\d+ [0-9A-F]+ ([0-9A-F]+)-?.*$/)
   if m
     result << m.captures[0]
   end
