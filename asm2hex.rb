@@ -53,12 +53,12 @@ puts output
 puts
 
 result = ""
-output.each_line{|l|
+output.each_line do |l|
   m = l.match(/^ *\d+ [0-9A-F]+ ([0-9A-F]+)-?.*$/)
   if m
     result << m.captures[0]
   end
-}
+end
 puts "code length: #{result.length / 2}"
 if [result].pack("H*").include?("\0")
   puts "[!] contains null byte"
